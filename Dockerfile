@@ -31,6 +31,7 @@ RUN echo "http://dl-4.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositor
       php7-phar \
       php7-session \
       php7-tidy \
+      php7-tokenizer \
       php7-xdebug \
       php7-xml \
       php7-xmlreader \
@@ -39,7 +40,7 @@ RUN echo "http://dl-4.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositor
       php7-zlib \
       bash \
       curl \
-	  git \
+	    git \
       mysql-client \
       openssl \
       openssh \
@@ -69,9 +70,7 @@ RUN echo "http://dl-4.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositor
             alpine-sdk && \
         rm -rf /var/cache/apk/*
 
-# Link php7 exec to more standard php name
-RUN ln -s /usr/bin/php7 /usr/bin/php \
-    && rm -rf /etc/php7/php-fpm.d \
+RUN rm -rf /etc/php7/php-fpm.d \
     && mkdir -p /srv \
     && mkdir -p /data \
     && mkdir -p /repo \
@@ -81,12 +80,15 @@ RUN ln -s /usr/bin/php7 /usr/bin/php \
     && ln -fs /proc/self/fd/2 /var/tmp/phd/log/daemons.log
 
 # Install Composer
-ENV COMPOSER_VERSION 1.2.0
+ENV COMPOSER_VERSION 1.4.2
 RUN	curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer --version=${COMPOSER_VERSION} && \
   chmod +x /usr/local/bin/composer
 
+  # Speed up composer
+  RUN composer global require "hirak/prestissimo:^0.3"
+
 # Install Drush using Composer.
-ENV DRUSH_VERSION 8.1.8
+ENV DRUSH_VERSION 8.1.11
 RUN git clone https://github.com/drush-ops/drush.git /usr/local/src/drush && \
     cd /usr/local/src/drush && \
     git checkout ${DRUSH_VERSION} && \

@@ -30,6 +30,7 @@ RUN echo "http://dl-4.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositor
       php7-pdo_mysql \
       php7-phar \
       php7-session \
+      php7-simplexml \
       php7-tidy \
       php7-tokenizer \
       php7-xdebug \

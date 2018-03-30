@@ -89,7 +89,7 @@ RUN	curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
   RUN composer global require "hirak/prestissimo:^0.3"
 
 # Install Drush using Composer.
-ENV DRUSH_VERSION 8.1.11
+ENV DRUSH_VERSION 8.1.16
 RUN git clone https://github.com/drush-ops/drush.git /usr/local/src/drush && \
     cd /usr/local/src/drush && \
     git checkout ${DRUSH_VERSION} && \
